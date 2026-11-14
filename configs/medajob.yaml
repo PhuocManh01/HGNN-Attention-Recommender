@@ -1,0 +1,31 @@
+# MedaJob configuration
+
+dataset:
+  name: medajob
+  raw_dir: medajob
+
+  user_column: null
+  item_column: null
+  interaction_column: null
+
+graph:
+  node_types: []
+
+model:
+  embedding_dim: 32
+  hidden_dim: 64
+  num_layers: 2
+  attention_heads: 2
+  dropout: 0.2
+
+training:
+  seed: 42
+  epochs: 30
+  batch_size: 512
+  learning_rate: 0.001
+
+evaluation:
+  top_k: 10
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1

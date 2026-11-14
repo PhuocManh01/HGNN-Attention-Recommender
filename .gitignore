@@ -1,0 +1,34 @@
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Datasets
+datasets/**
+!datasets/**/
+!datasets/**/.gitkeep
+
+# Checkpoints
+checkpoints/**
+!checkpoints/.gitkeep
+
+# Generated results
+results/**
+!results/**/
+!results/**/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.log
+.DS_Store
