@@ -1,1 +1,0 @@
-"""Hypergraph neural network recommender."""

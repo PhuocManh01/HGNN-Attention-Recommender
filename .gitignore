@@ -1,34 +1,35 @@
-
 # Python
 __pycache__/
 *.py[cod]
 .venv/
 .pytest_cache/
-.ipynb_checkpoints/
+.mypy_cache/
 
-# Secrets
+# Environment
 .env
-.env.*
-!.env.example
+.env.local
 
 # Datasets
-datasets/**
-!datasets/**/
-!datasets/**/.gitkeep
+data/raw/*
+data/processed/*
+data/splits/*
+!data/**/.gitkeep
 
-# Checkpoints
-checkpoints/**
+# Models
+checkpoints/*
 !checkpoints/.gitkeep
 
-# Generated results
-results/**
-!results/**/
-!results/**/.gitkeep
+# Experiments
+experiments/*
+!experiments/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints/
 
 # IDE
 .vscode/
 .idea/
 
-# Temporary files
-*.log
+# OS
 .DS_Store
+Thumbs.db
