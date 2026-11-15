@@ -29,7 +29,7 @@ def create_output_dirs():
     for root in [CHECKPOINT_ROOT, RESULTS_ROOT]:
         root.mkdir(parents=True, exist_ok=True)
 
-        for dataset in ["movielens", "medajob"]:
+        for dataset in ["movielens", "jth"]:
             (root / dataset).mkdir(
                 parents=True,
                 exist_ok=True

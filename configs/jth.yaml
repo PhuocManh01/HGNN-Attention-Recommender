@@ -1,8 +1,8 @@
-# MedaJob configuration
+# JTH configuration
 
 dataset:
-  name: medajob
-  raw_dir: medajob
+  name: jth
+  raw_dir: jth
 
   user_column: null
   item_column: null

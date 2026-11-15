@@ -14,7 +14,7 @@ def main():
     print("Python:", sys.version.split()[0])
     print("Project:", PROJECT_ROOT)
 
-    for dataset in ["movielens", "medajob"]:
+    for dataset in ["movielens", "jth"]:
         config = load_config(dataset)
         print("Config loaded:", config["dataset"]["name"])
 
