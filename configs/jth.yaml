@@ -29,3 +29,11 @@ evaluation:
   train_ratio: 0.8
   val_ratio: 0.1
   test_ratio: 0.1
+
+preprocessing:
+  split_strategy: temporal
+  interaction_timestamp: proxy_min_stage_date
+  negative_ratio_train: 1
+  negative_ratio_eval: 5
+  exclude_unverified_llm_features: true
+  seed: 42

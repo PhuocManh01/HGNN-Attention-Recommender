@@ -1,4 +1,5 @@
 torch-geometric
+torch
 numpy
 pandas
 scikit-learn

@@ -1,0 +1,539 @@
+{
+  "status": "passed",
+  "raw_integrity": {
+    "ratings.csv": {
+      "exists": true,
+      "sha256": "aa289ca83157595d0df6aea1be6a4ded676ddc4385472e8313a8ed9805352646"
+    },
+    "movies.csv": {
+      "exists": true,
+      "sha256": "5a5f32dd9bb3797b8e728a1b98958789d2b13f294a69fdfbc5727f8a9611aa07"
+    },
+    "tags.csv": {
+      "exists": true,
+      "sha256": "92a9f8bb7916dceef6151209845788c3643f794dfa79d1feaec7121b5960399d"
+    },
+    "links.csv": {
+      "exists": true,
+      "sha256": "97ad18e4e56a09363c65676b6cb3482ce3e2cea2372a24620c1599c843325f31"
+    },
+    "candidates.csv": {
+      "exists": true,
+      "sha256": "4328ceb1678757ce19b62105e97cca70759f38c332bef13cf9746badbbf3f692"
+    },
+    "jobs.csv": {
+      "exists": true,
+      "sha256": "5bcd9e4379e558b98418e2242d321757612a96887b934e0d3ece6eb4a9952628"
+    },
+    "history.csv": {
+      "exists": true,
+      "sha256": "0348bb0017156a91fe40fdd4346846982587940a0796dae3941da55312ade2a3"
+    }
+  },
+  "movielens": {
+    "raw": {
+      "ratings": 100836,
+      "positive": 48580,
+      "observed_non_positive": 52256
+    },
+    "quality": {
+      "rows_before": {
+        "ratings": 100836,
+        "movies": 9742,
+        "tags": 3683,
+        "links": 9742
+      },
+      "errors": {
+        "ratings_null_ids": 0,
+        "movies_null_ids": 0,
+        "ratings_duplicate_user_movie": 0,
+        "movies_duplicate_movie_id": 0,
+        "tags_duplicate_rows": 0,
+        "links_duplicate_movie_id": 0,
+        "invalid_ratings": 0,
+        "invalid_timestamps": 0,
+        "unknown_movie_references": 0,
+        "links_missing_tmdb_id": 8
+      },
+      "threshold": 4.0,
+      "links_used_for_interactions": false,
+      "tags_used_for_interactions": false,
+      "unobserved_is_not_materialized": true,
+      "rows_after": {
+        "interactions": 100836,
+        "movies_clean": 9742,
+        "movie_genres": 22084
+      },
+      "counts": {
+        "users": 610,
+        "catalog_movies": 9742,
+        "rated_movies": 9724,
+        "positive_ratings": 48580,
+        "observed_non_positive_ratings": 52256,
+        "unobserved_user_movie_pairs": 5841784
+      },
+      "timestamp_range_utc": {
+        "min": "1996-03-29T18:36:55+00:00",
+        "max": "2018-09-24T14:27:30+00:00"
+      },
+      "rating_range": {
+        "min": 0.5,
+        "max": 5.0
+      }
+    },
+    "processed_rows": {
+      "interactions": 100836,
+      "movies": 9742,
+      "movie_genres": 22084
+    },
+    "duplicate_user_movie": 0,
+    "split": {
+      "rows": {
+        "train": 38864,
+        "val": 4858,
+        "test": 4858
+      },
+      "unique_entities": {
+        "train": {
+          "entities": 517,
+          "items": 5186
+        },
+        "val": {
+          "entities": 59,
+          "items": 1809
+        },
+        "test": {
+          "entities": 80,
+          "items": 2138
+        }
+      },
+      "pair_overlap": {
+        "train_val": 0,
+        "train_test": 0,
+        "val_test": 0
+      },
+      "timestamp_overlap": {
+        "train_val": 0,
+        "train_test": 0,
+        "val_test": 0
+      },
+      "temporal_order_ok": true,
+      "future_rows_in_train_graph": 0,
+      "cutoffs": {
+        "train_end": "2016-02-04T21:34:50+00:00",
+        "validation_end": "2017-05-03T21:36:57+00:00"
+      },
+      "metadata_protocol_ok": true
+    },
+    "sparsity": 0.991825154561456,
+    "mappings": {
+      "genres_mapping": {
+        "rows": 20,
+        "contiguous": true,
+        "unique_raw": 20,
+        "reverse_rows": 20
+      },
+      "movies_mapping": {
+        "rows": 9742,
+        "contiguous": true,
+        "unique_raw": 9742,
+        "reverse_rows": 9742
+      },
+      "users_mapping": {
+        "rows": 610,
+        "contiguous": true,
+        "unique_raw": 610,
+        "reverse_rows": 610
+      }
+    },
+    "candidate_pool": {
+      "dataset": "movielens",
+      "catalog_movies": 9742,
+      "catalog_assumption": "static_catalog: every catalog movie is eligible at every cutoff; no reliable availability timestamp exists",
+      "release_year_used_for_eligibility": false,
+      "pool_generation": "lazy_per_user_with_in_memory_cache",
+      "cutoffs": {
+        "validation": "2016-02-04T21:34:50+00:00",
+        "test": "2017-05-03T21:36:57+00:00"
+      },
+      "ground_truth_eligibility": {
+        "validation": {
+          "ground_truth_rows": 4858,
+          "excluded_rows": {
+            "observed_before_cutoff": 0,
+            "not_in_static_catalog": 0
+          },
+          "examples": {
+            "observed_before_cutoff": [],
+            "not_in_static_catalog": []
+          }
+        },
+        "test": {
+          "ground_truth_rows": 4858,
+          "excluded_rows": {
+            "observed_before_cutoff": 0,
+            "not_in_static_catalog": 0
+          },
+          "examples": {
+            "observed_before_cutoff": [],
+            "not_in_static_catalog": []
+          }
+        }
+      },
+      "unrated_vs_new": {
+        "validation": {
+          "catalog_unrated_at_cutoff": 1926,
+          "items_first_seen_after_cutoff": 1908,
+          "new_item_status": "not_identifiable_without availability history; future first rating is not treated as item creation"
+        },
+        "test": {
+          "catalog_unrated_at_cutoff": 1313,
+          "items_first_seen_after_cutoff": 1295,
+          "new_item_status": "not_identifiable_without availability history; future first rating is not treated as item creation"
+        }
+      }
+    },
+    "negative_sampling": {
+      "pilot_rows": 128,
+      "in_candidate_pool": true,
+      "reproducible": true,
+      "future_labels_used": false,
+      "false_negative_risk_recorded": true
+    }
+  },
+  "jth": {
+    "raw": {
+      "candidates": 37554,
+      "jobs": 6011,
+      "application_processes": 42288,
+      "unique_candidate_job_pairs": 41308,
+      "duplicate_pair_records": 980
+    },
+    "quality": {
+      "rows_before": {
+        "candidates": 37554,
+        "jobs": 6011,
+        "history": 42288
+      },
+      "errors": {
+        "candidate_null_ids": 0,
+        "job_null_ids": 0,
+        "history_null_application_ids": 0,
+        "history_null_candidate_ids": 0,
+        "history_null_job_ids": 0,
+        "duplicate_candidate_rows": 0,
+        "duplicate_job_rows": 0,
+        "duplicate_history_rows": 0,
+        "duplicate_candidate_ids": 0,
+        "duplicate_job_ids": 0,
+        "duplicate_application_ids": 0,
+        "duplicate_candidate_job_pairs": 980,
+        "orphan_candidates": 0,
+        "orphan_jobs": 0
+      },
+      "excluded_from_interactions": {},
+      "raw_data_preserved": true,
+      "interaction_time_definition": "earliest valid stage date; end_of_process_date is excluded",
+      "interaction_time_is_proxy": true,
+      "rows_after": {
+        "application_events": 42288,
+        "interactions": 41308,
+        "candidates_clean": 37554,
+        "jobs_clean": 6011,
+        "candidate_skills": 171981,
+        "job_skills": 10988
+      },
+      "counts": {
+        "candidates": 37554,
+        "jobs": 6011,
+        "application_processes": 42288,
+        "unique_candidate_job_pairs": 41308,
+        "repeated_candidate_job_rows": 980
+      },
+      "invalid_timestamp_counts": {
+        "spontaneous_application_date": 0,
+        "shortlist_date": 0,
+        "qualification_date": 0,
+        "resume_sent_to_company_date": 0,
+        "1st_interview_date": 0,
+        "2nd_interview_date": 0,
+        "3rd_interview_date": 0,
+        "4th_interview_date": 0,
+        "job_offer_proposed_date": 0,
+        "job_offer_accepted_date": 0,
+        "end_of_process_date": 0
+      },
+      "temporal_anomalies": {},
+      "temporal_anomaly_examples": [],
+      "missing_values": {
+        "candidates": {
+          "skills": 4270,
+          "expertise_area": 2987,
+          "job_category": 10082,
+          "years_experience": 31356,
+          "actual_salary": 35257,
+          "actual_daily_salary": 36701,
+          "contract_type": 5583,
+          "zipcode": 15605,
+          "source": 5368,
+          "llm_nationality": 3020,
+          "llm_languages_spoken": 4559,
+          "llm_industry_domains": 4012,
+          "llm_hard_skills": 4527,
+          "llm_soft_skills": 5270,
+          "llm_programming_languages": 11177,
+          "llm_tools_technologies": 5656,
+          "llm_certifications": 29054,
+          "llm_hobbies": 19556,
+          "llm_expertise_area": 4607,
+          "llm_job_category": 4208,
+          "llm_values": 10241,
+          "llm_age_bucket": 29050
+        },
+        "jobs": {
+          "job_category": 4722,
+          "skills": 132,
+          "expertise_area": 1838,
+          "years_experience": 5342,
+          "zipcode": 128,
+          "salary": 2054,
+          "daily_rate": 4090,
+          "source": 5379,
+          "llm_industry_domains": 2,
+          "llm_company_values": 703,
+          "llm_hard_skills": 17,
+          "llm_soft_skills": 260,
+          "llm_programming_languages": 1233,
+          "llm_tools_technologies": 282,
+          "llm_certifications": 5903,
+          "llm_expertise_area": 4,
+          "llm_job_category": 4
+        },
+        "history": {
+          "spontaneous_application_date": 38871,
+          "shortlist_date": 4554,
+          "qualification_date": 18053,
+          "resume_sent_to_company_date": 35170,
+          "1st_interview_date": 39475,
+          "2nd_interview_date": 41463,
+          "3rd_interview_date": 42059,
+          "4th_interview_date": 42220,
+          "job_offer_proposed_date": 41389,
+          "job_offer_accepted_date": 41431,
+          "end_of_process_date": 31240,
+          "application_source": 32216
+        }
+      },
+      "skill_summary": {
+        "candidates": {
+          "rows": 171981,
+          "unique_normalized_skills": 286,
+          "rare_skill_rows": 579,
+          "formatting_variants": {}
+        },
+        "jobs": {
+          "rows": 10988,
+          "unique_normalized_skills": 75,
+          "rare_skill_rows": 591,
+          "formatting_variants": {}
+        },
+        "rare_skill_is_not_semantic_node": true
+      }
+    },
+    "processed_rows": {
+      "application_events": 42288,
+      "interactions": 41308,
+      "candidate_skills": 171981,
+      "job_skills": 10988
+    },
+    "valid_interaction_timestamps": 41308,
+    "temporal_anomaly_rows": 0,
+    "missing_feature_cells": {
+      "candidates": 284934,
+      "jobs": 32093
+    },
+    "split": {
+      "rows": {
+        "train": 33041,
+        "val": 4140,
+        "test": 4127
+      },
+      "unique_entities": {
+        "train": {
+          "entities": 20660,
+          "items": 3674
+        },
+        "val": {
+          "entities": 3590,
+          "items": 346
+        },
+        "test": {
+          "entities": 3412,
+          "items": 309
+        }
+      },
+      "pair_overlap": {
+        "train_val": 0,
+        "train_test": 0,
+        "val_test": 0
+      },
+      "timestamp_overlap": {
+        "train_val": 0,
+        "train_test": 0,
+        "val_test": 0
+      },
+      "temporal_order_ok": true,
+      "future_rows_in_train_graph": 0,
+      "cutoffs": {
+        "train_end": "2024-03-08T00:00:00+00:00",
+        "validation_end": "2024-09-03T00:00:00+00:00"
+      },
+      "metadata_protocol_ok": true
+    },
+    "sparsity": 0.9998170083646066,
+    "mappings": {
+      "candidates_mapping": {
+        "rows": 37554,
+        "contiguous": true,
+        "unique_raw": 37554,
+        "reverse_rows": 37554
+      },
+      "categories_mapping": {
+        "rows": 81,
+        "contiguous": true,
+        "unique_raw": 81,
+        "reverse_rows": 81
+      },
+      "expertise_areas_mapping": {
+        "rows": 12,
+        "contiguous": true,
+        "unique_raw": 12,
+        "reverse_rows": 12
+      },
+      "jobs_mapping": {
+        "rows": 6011,
+        "contiguous": true,
+        "unique_raw": 6011,
+        "reverse_rows": 6011
+      },
+      "skills_mapping": {
+        "rows": 287,
+        "contiguous": true,
+        "unique_raw": 287,
+        "reverse_rows": 287
+      }
+    },
+    "candidate_pool": {
+      "dataset": "jth",
+      "candidates": 37554,
+      "jobs": 6011,
+      "pool_generation": "lazy_per_candidate_with_in_memory_cache",
+      "cutoffs": {
+        "validation": "2024-03-08T00:00:00+00:00",
+        "test": "2024-09-03T00:00:00+00:00"
+      },
+      "job_eligibility": "job create_date <= cutoff",
+      "job_open_status": "unknown; no reliable closing date/open-state field is available",
+      "future_stage_outcomes_used": false,
+      "candidates_without_history": {
+        "validation": {
+          "count": 16894,
+          "eligible_jobs_at_cutoff": 5552,
+          "pool_size_min": 5536,
+          "pool_size_max": 5552,
+          "pool_size_mean": 5551.120173616659,
+          "zero_pool_candidates": 0
+        },
+        "test": {
+          "count": 14124,
+          "eligible_jobs_at_cutoff": 5786,
+          "pool_size_min": 5770,
+          "pool_size_max": 5786,
+          "pool_size_mean": 5785.0099323640625,
+          "zero_pool_candidates": 0
+        }
+      },
+      "ground_truth_eligibility": {
+        "validation": {
+          "ground_truth_rows": 4140,
+          "excluded_rows": {
+            "job_created_after_cutoff": 2885,
+            "observed_before_cutoff": 0
+          },
+          "examples": {
+            "job_created_after_cutoff": [
+              {
+                "candidate_id": "26356",
+                "job_id": "2248"
+              },
+              {
+                "candidate_id": "7268",
+                "job_id": "2792"
+              },
+              {
+                "candidate_id": "11998",
+                "job_id": "2501"
+              },
+              {
+                "candidate_id": "12107",
+                "job_id": "2248"
+              },
+              {
+                "candidate_id": "25304",
+                "job_id": "2248"
+              }
+            ],
+            "observed_before_cutoff": []
+          }
+        },
+        "test": {
+          "ground_truth_rows": 4127,
+          "excluded_rows": {
+            "job_created_after_cutoff": 3504,
+            "observed_before_cutoff": 0
+          },
+          "examples": {
+            "job_created_after_cutoff": [
+              {
+                "candidate_id": "12994",
+                "job_id": "3801"
+              },
+              {
+                "candidate_id": "14130",
+                "job_id": "3920"
+              },
+              {
+                "candidate_id": "5481",
+                "job_id": "3801"
+              },
+              {
+                "candidate_id": "9886",
+                "job_id": "3801"
+              },
+              {
+                "candidate_id": "9439",
+                "job_id": "3782"
+              }
+            ],
+            "observed_before_cutoff": []
+          }
+        }
+      }
+    },
+    "negative_sampling": {
+      "pilot_rows": 128,
+      "in_candidate_pool": true,
+      "reproducible": true,
+      "future_labels_used": false,
+      "false_negative_risk_recorded": true
+    }
+  },
+  "leakage": {
+    "future_interactions_in_training_graph": 0,
+    "split_pair_overlap": 0,
+    "split_timestamp_overlap": 0,
+    "future_outcomes_in_features": false,
+    "unverified_llm_features_excluded": true,
+    "raw_files_written_by_validation": false
+  }
+}

@@ -32,3 +32,10 @@ evaluation:
   train_ratio: 0.8
   val_ratio: 0.1
   test_ratio: 0.1
+
+preprocessing:
+  positive_threshold: 4.0
+  split_strategy: temporal
+  negative_ratio_train: 1
+  negative_ratio_eval: 5
+  seed: 42
