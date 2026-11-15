@@ -1,0 +1,50 @@
+# Colab-specific overrides for movie-dss-gnn.
+# Keep project-relative paths in the base configs; this file only describes the
+# runtime and storage differences of a hosted Colab session.
+
+environment: colab
+
+runtime:
+  # Set to false when running on a CPU-only Colab runtime.
+  use_gpu: true
+  device: auto
+  seed: 42
+  num_workers: 2
+  pin_memory: true
+  persistent_workers: false
+
+storage:
+  # The setup notebook can mount Drive when this is enabled.
+  mount_google_drive: false
+  drive_root: /content/drive/MyDrive/movie-dss-gnn
+  local_root: /content/movie-dss-gnn
+  # local: fastest, but data is lost when the runtime is recycled.
+  # drive: persistent, but generally slower for many small files.
+  mode: local
+  download_cache: /content/movie-dss-gnn/data/raw
+  processed_data: /content/movie-dss-gnn/data/processed
+  splits: /content/movie-dss-gnn/data/splits
+  checkpoints: /content/movie-dss-gnn/checkpoints
+  experiments: /content/movie-dss-gnn/experiments
+
+data:
+  # Keep preprocessing bounded for interactive notebook sessions.
+  cache_processed: true
+  overwrite_processed: false
+  batch_size: 256
+  prefetch_factor: 2
+
+training:
+  # Notebook-friendly defaults. Increase after confirming the GPU memory size.
+  epochs: 30
+  batch_size: 256
+  gradient_accumulation_steps: 1
+  mixed_precision: true
+  save_every: 5
+  log_every: 50
+
+notebook:
+  project_dir: /content/movie-dss-gnn
+  config_dir: /content/movie-dss-gnn/configs
+  install_requirements: true
+  show_plots_inline: true

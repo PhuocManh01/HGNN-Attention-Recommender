@@ -1,0 +1,15 @@
+# Colab-specific dependencies. Colab already provides Python, Jupyter and
+# usually PyTorch; this file installs the project-level data/ML utilities.
+-r requirements.txt
+
+numpy>=1.26,<3
+pandas>=2.1,<3
+scipy>=1.11,<2
+scikit-learn>=1.3,<2
+networkx>=3.2,<4
+matplotlib>=3.8,<4
+seaborn>=0.13,<1
+tqdm>=4.66,<5
+PyYAML>=6.0,<7
+omegaconf>=2.3,<3
+torch-geometric>=2.5,<3
