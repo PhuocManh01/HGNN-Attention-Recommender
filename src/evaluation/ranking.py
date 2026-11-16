@@ -83,7 +83,9 @@ def evaluate_full_ranking(
     cached_user_embeddings = None
     cached_movie_embeddings = None
 
-    if hasattr(model, "propagate"):
+    # Only use cached propagation for models that follow
+    # the LightGCN embedding interface.
+    if score_fn is None and hasattr(model, "propagate"):
         model.eval()
 
         with torch.no_grad():
@@ -120,10 +122,10 @@ def evaluate_full_ranking(
                 cached_movie_embeddings
                 @ cached_user_embeddings[user_idx]
             )
-        elif score_fn is None:
-            scores = model.score_all(user_idx)
-        else:
+        elif score_fn is not None:
             scores = score_fn(user_idx)
+        else:
+            scores = model.score_all(user_idx)
 
         if isinstance(scores, torch.Tensor):
             scores = scores.detach().cpu().numpy()
