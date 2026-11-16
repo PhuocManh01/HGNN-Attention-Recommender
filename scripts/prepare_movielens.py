@@ -1,3 +1,4 @@
+
 import argparse
 import json
 import sys
@@ -17,24 +18,40 @@ def main():
     parser.add_argument(
         "--raw-dir",
         type=Path,
-        required=True
+        required=True,
     )
 
     parser.add_argument(
         "--output-root",
         type=Path,
-        required=True
+        required=True,
+    )
+
+    parser.add_argument(
+        "--split-method",
+        type=str,
+        choices=[
+            "per_user_temporal",
+            "global_temporal",
+        ],
+        default="per_user_temporal",
+        help="Temporal split evaluation protocol",
     )
 
     args = parser.parse_args()
 
     metadata = run_pipeline(
         raw_dir=args.raw_dir,
-        output_root=args.output_root
+        output_root=args.output_root,
+        split_method=args.split_method,
     )
 
     print("\nPhase 2 completed successfully!")
-    print(json.dumps(metadata, indent=2))
+    print(json.dumps(
+        metadata,
+        indent=2,
+        ensure_ascii=False,
+    ))
 
 
 if __name__ == "__main__":

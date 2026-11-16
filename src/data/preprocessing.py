@@ -233,6 +233,125 @@ def temporal_split(
     return train, val, test
 
 
+
+def per_user_temporal_split(
+    interactions,
+    train_ratio=0.8,
+    val_ratio=0.1,
+):
+    """
+    Chronological split within each user.
+
+    All interactions sharing the same timestamp
+    for a user remain in the same partition.
+
+    Users with fewer than 3 distinct timestamps
+    remain entirely in Train.
+    """
+    assert 0 < train_ratio < 1
+    assert 0 < val_ratio < 1
+    assert train_ratio + val_ratio < 1
+
+    train_parts = []
+    val_parts = []
+    test_parts = []
+    train_only_users = 0
+
+    for _, user_df in interactions.groupby(
+        "user_idx", sort=True
+    ):
+        user_df = user_df.sort_values(
+            ["timestamp", "interaction_id"],
+            kind="stable",
+        ).reset_index(drop=True)
+
+        n = len(user_df)
+
+        counts = (
+            user_df.groupby("timestamp", sort=True)
+            .size()
+            .to_numpy()
+        )
+
+        # Cannot create 3 chronological partitions.
+        if len(counts) < 3:
+            train_parts.append(user_df)
+            train_only_users += 1
+            continue
+
+        cumulative = np.cumsum(counts)
+
+        target_train = n * train_ratio
+        target_train_val = n * (
+            train_ratio + val_ratio
+        )
+
+        # Leave at least one timestamp group
+        # for Validation and Test.
+        train_end_idx = int(
+            np.argmin(
+                np.abs(
+                    cumulative[:-2] - target_train
+                )
+            )
+        )
+
+        train_end = int(
+            cumulative[train_end_idx]
+        )
+
+        possible_val_ends = np.arange(
+            train_end_idx + 1,
+            len(cumulative) - 1,
+        )
+
+        val_end_idx = int(
+            possible_val_ends[
+                np.argmin(
+                    np.abs(
+                        cumulative[possible_val_ends]
+                        - target_train_val
+                    )
+                )
+            ]
+        )
+
+        val_end = int(
+            cumulative[val_end_idx]
+        )
+
+        train_parts.append(
+            user_df.iloc[:train_end].copy()
+        )
+        val_parts.append(
+            user_df.iloc[train_end:val_end].copy()
+        )
+        test_parts.append(
+            user_df.iloc[val_end:].copy()
+        )
+
+    def combine(parts):
+        if not parts:
+            return interactions.iloc[0:0].copy()
+
+        return pd.concat(
+            parts, ignore_index=True
+        ).sort_values(
+            ["timestamp", "interaction_id"],
+            kind="stable",
+        ).reset_index(drop=True)
+
+    train = combine(train_parts)
+    val = combine(val_parts)
+    test = combine(test_parts)
+
+    assert not train.empty
+    assert not val.empty
+    assert not test.empty
+
+    return train, val, test
+
+
 def get_evaluation_users(train, val, test):
     # Evaluation cohort is fixed by predeclared
     # warm-start eligibility rules.
@@ -298,30 +417,100 @@ def get_evaluation_users(train, val, test):
     return result
 
 
-def validate_splits(train, val, test, interactions):
+
+def validate_splits(
+    train,
+    val,
+    test,
+    interactions,
+    split_method="global_temporal",
+):
+    assert split_method in {
+        "global_temporal",
+        "per_user_temporal",
+    }
+
+    assert not train.empty
+    assert not val.empty
+    assert not test.empty
+
     all_ids = pd.concat([
         train["interaction_id"],
         val["interaction_id"],
-        test["interaction_id"]
+        test["interaction_id"],
     ])
 
     assert len(all_ids) == len(interactions)
     assert all_ids.is_unique
-
     assert set(all_ids) == set(
         interactions["interaction_id"]
     )
 
-    assert train["timestamp"].max() < val["timestamp"].min()
-    assert val["timestamp"].max() < test["timestamp"].min()
-
-    for split in [train, val, test]:
+    for split in (train, val, test):
         assert not split.duplicated(
             ["user_idx", "movie_idx"]
         ).any()
 
+    if split_method == "global_temporal":
+        assert (
+            train["timestamp"].max()
+            < val["timestamp"].min()
+        )
+        assert (
+            val["timestamp"].max()
+            < test["timestamp"].min()
+        )
+        return
 
-def run_pipeline(raw_dir, output_root):
+    # Per-user temporal validation.
+    train_groups = {
+        user: group
+        for user, group in train.groupby("user_idx")
+    }
+    val_groups = {
+        user: group
+        for user, group in val.groupby("user_idx")
+    }
+    test_groups = {
+        user: group
+        for user, group in test.groupby("user_idx")
+    }
+
+    for user in set(val_groups) | set(test_groups):
+        assert user in train_groups, (
+            f"User {user} has no Train history"
+        )
+
+    for user, val_group in val_groups.items():
+        train_group = train_groups[user]
+
+        assert (
+            train_group["timestamp"].max()
+            < val_group["timestamp"].min()
+        ), f"Train/Val leakage: user {user}"
+
+    for user, test_group in test_groups.items():
+        assert user in val_groups, (
+            f"User {user} has Test but no Validation"
+        )
+
+        previous = pd.concat([
+            train_groups[user],
+            val_groups[user],
+        ])
+
+        assert (
+            previous["timestamp"].max()
+            < test_group["timestamp"].min()
+        ), f"Val/Test leakage: user {user}"
+
+
+
+def run_pipeline(
+    raw_dir,
+    output_root,
+    split_method="per_user_temporal",
+):
     raw_dir = Path(raw_dir)
     output_root = Path(output_root)
 
@@ -351,10 +540,25 @@ def run_pipeline(raw_dir, output_root):
         )
     )
 
-    train, val, test = temporal_split(interactions)
+    if split_method == "per_user_temporal":
+        train, val, test = per_user_temporal_split(
+            interactions
+        )
+    elif split_method == "global_temporal":
+        train, val, test = temporal_split(
+            interactions
+        )
+    else:
+        raise ValueError(
+            f"Unsupported split method: {split_method}"
+        )
 
     validate_splits(
-        train, val, test, interactions
+        train,
+        val,
+        test,
+        interactions,
+        split_method=split_method,
     )
 
     train_val = pd.concat(
@@ -399,7 +603,7 @@ def run_pipeline(raw_dir, output_root):
 
     metadata = {
         "dataset": "MovieLens Latest Small",
-        "split_method": "global_temporal",
+        "split_method": split_method,
         "timestamp_tie_policy": "keep_together",
         "train_ratio_target": 0.8,
         "val_ratio_target": 0.1,
@@ -416,10 +620,6 @@ def run_pipeline(raw_dir, output_root):
         "train_ratio_actual": len(train) / len(interactions),
         "val_ratio_actual": len(val) / len(interactions),
         "test_ratio_actual": len(test) / len(interactions),
-        "train_end_timestamp": int(train["timestamp"].max()),
-        "val_start_timestamp": int(val["timestamp"].min()),
-        "val_end_timestamp": int(val["timestamp"].max()),
-        "test_start_timestamp": int(test["timestamp"].min()),
         "num_eligible_val_users": int(
             evaluation_users["eligible_val"].sum()
         ),
@@ -435,6 +635,46 @@ def run_pipeline(raw_dir, output_root):
             "interaction statistics as features"
         )
     }
+    
+    if split_method == "global_temporal":
+        metadata.update({
+            "train_end_timestamp": int(
+                train["timestamp"].max()
+            ),
+            "val_start_timestamp": int(
+                val["timestamp"].min()
+            ),
+            "val_end_timestamp": int(
+                val["timestamp"].max()
+            ),
+            "test_start_timestamp": int(
+                test["timestamp"].min()
+            ),
+        })
+    else:
+        metadata.update({
+            "timestamp_boundary_scope": "per_user",
+            "short_history_policy": (
+                "users with fewer than 3 distinct "
+                "timestamps remain in Train"
+            ),
+            "num_users_in_train": int(
+                train["user_idx"].nunique()
+            ),
+            "num_users_in_val": int(
+                val["user_idx"].nunique()
+            ),
+            "num_users_in_test": int(
+                test["user_idx"].nunique()
+            ),
+            "num_train_only_users": int(
+                len(
+                    set(train["user_idx"])
+                    - set(val["user_idx"])
+                )
+            ),
+        })
+
 
     with open(
         splits_dir / "split_metadata.json",

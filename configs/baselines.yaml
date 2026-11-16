@@ -1,0 +1,26 @@
+
+project:
+  seed: 42
+  device: cpu
+  top_k: 10
+
+data:
+  root: data
+  positive_threshold: 4.0
+
+training:
+  embedding_dim: 64
+  batch_size: 1024
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  epochs: 50
+  patience: 7
+  validation_every: 1
+
+lightgcn:
+  num_layers: 2
+
+models:
+  - popularity
+  - mf_bpr
+  - lightgcn
