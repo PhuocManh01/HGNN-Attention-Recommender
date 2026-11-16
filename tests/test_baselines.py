@@ -96,6 +96,20 @@ class TestBaselines(unittest.TestCase):
         ):
             self.assertNotIn(movie, history[user])
 
+    def test_multiple_negative_sampling_shape_and_history(self):
+        rng = np.random.default_rng(42)
+        history = {0: {0, 1, 2}}
+        users = torch.tensor([0, 0])
+
+        negatives = sample_negatives(
+            users, history, 6, rng, num_negatives=3
+        )
+
+        self.assertEqual(tuple(negatives.shape), (2, 3))
+        for row in negatives.tolist():
+            for movie in row:
+                self.assertNotIn(movie, history[0])
+
     def test_ranking_metrics(self):
         metrics = ranking_metrics(
             recommended=[1, 2, 3, 4],

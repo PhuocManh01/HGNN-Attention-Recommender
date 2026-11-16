@@ -40,8 +40,12 @@ def sample_negatives(
     users,
     history,
     num_movies,
-    rng
+    rng,
+    num_negatives=1,
 ):
+    if num_negatives < 1:
+        raise ValueError("num_negatives must be >= 1")
+
     negatives = []
 
     for user in users.tolist():
@@ -52,17 +56,24 @@ def sample_negatives(
                 "User has no unobserved candidate"
             )
 
-        while True:
+        user_negatives = []
+        while len(user_negatives) < num_negatives:
             movie = int(rng.integers(num_movies))
 
             if movie not in observed:
-                negatives.append(movie)
-                break
+                user_negatives.append(movie)
 
-    return torch.tensor(
+        negatives.append(user_negatives)
+
+    negative_tensor = torch.tensor(
         negatives,
         dtype=torch.long
     )
+
+    if num_negatives == 1:
+        return negative_tensor[:, 0]
+
+    return negative_tensor
 
 
 def bpr_loss(positive_scores, negative_scores):

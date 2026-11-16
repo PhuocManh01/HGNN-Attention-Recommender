@@ -52,6 +52,10 @@ class HGNNWithAttention(nn.Module):
             )
             for _ in range(num_layers)
         ])
+        self.norms = nn.ModuleList([
+            nn.LayerNorm(hidden_dim)
+            for _ in range(num_layers)
+        ])
 
         # Learnable residual strength for each layer.
         self.residual_weights = nn.Parameter(
@@ -89,6 +93,10 @@ class HGNNWithAttention(nn.Module):
                 next_dict[node_type] = (
                     (1.0 - alpha) * previous
                     + alpha * self.dropout(message)
+                )
+
+                next_dict[node_type] = self.norms[layer_idx](
+                    next_dict[node_type]
                 )
 
             x_dict = next_dict

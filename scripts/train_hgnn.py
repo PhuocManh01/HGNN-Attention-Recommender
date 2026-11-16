@@ -1,6 +1,7 @@
 
 import json
 import sys
+import argparse
 from pathlib import Path
 
 import pandas as pd
@@ -17,7 +18,19 @@ from src.training.hgnn_trainer import (
 )
 
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Directory for checkpoint and experiment outputs.",
+    )
+    return parser.parse_args()
+
+
 def main():
+    args = parse_args()
     with open(
         ROOT / "configs/hgnn_attention.yaml",
         encoding="utf-8",
@@ -136,6 +149,8 @@ def main():
         eligible_val_users=eligible,
         num_movies=num_movies,
         epochs=cfg["training"]["epochs"],
+        batch_size=cfg["training"]["batch_size"],
+        num_negatives=cfg["training"].get("num_negatives", 1),
         learning_rate=cfg["training"]["learning_rate"],
         weight_decay=cfg["training"]["weight_decay"],
         patience=cfg["training"]["patience"],
@@ -160,8 +175,20 @@ def main():
             "Evaluation user count mismatch"
         )
 
-    checkpoint_dir = ROOT / "checkpoints/hgnn"
-    result_dir = ROOT / "experiments/phase5"
+    result_dir = (
+        args.output_dir
+        if args.output_dir is not None
+        else (
+            ROOT / "experiments/phase5_smoke"
+            if int(cfg["training"]["epochs"]) <= 2
+            else ROOT / "experiments/phase5"
+        )
+    )
+    checkpoint_dir = (
+        result_dir / "checkpoints"
+        if args.output_dir is not None
+        else ROOT / "checkpoints/hgnn"
+    )
 
     checkpoint_dir.mkdir(
         parents=True, exist_ok=True

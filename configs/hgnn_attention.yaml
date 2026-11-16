@@ -18,9 +18,10 @@ model:
 training:
   epochs: 50
   learning_rate: 0.001
-  weight_decay: 0.0001
-  patience: 7
-  batch_size: 1024
+  weight_decay: 0.00001
+  patience: 12
+  batch_size: 4096
+  num_negatives: 5
 
 evaluation:
   metric: NDCG@10

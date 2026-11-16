@@ -57,12 +57,19 @@ def train_hgnn(
     num_movies,
     *,
     epochs=50,
+    batch_size=1024,
+    num_negatives=5,
     learning_rate=0.001,
     weight_decay=0.0001,
     patience=7,
     seed=42,
     device="cpu",
 ):
+    if batch_size < 1:
+        raise ValueError("batch_size must be >= 1")
+    if num_negatives < 1:
+        raise ValueError("num_negatives must be >= 1")
+
     set_seed(seed)
     device = torch.device(device)
 
@@ -100,43 +107,56 @@ def train_hgnn(
     for epoch in range(1, epochs + 1):
         model.train()
 
-        # Full-graph propagation and one optimizer
-        # step per epoch, as in LightGCN Phase 4.
-        negatives = sample_negatives(
-            users.cpu(),
-            history,
-            num_movies,
-            rng,
-        ).to(device)
+        permutation = torch.randperm(len(users))
+        epoch_losses = []
 
-        optimizer.zero_grad()
+        for batch in permutation.split(batch_size):
+            batch_users = users[batch]
+            batch_pos = positives[batch]
+            batch_neg = sample_negatives(
+                batch_users.cpu(),
+                history,
+                num_movies,
+                rng,
+                num_negatives=num_negatives,
+            ).to(device)
 
-        embeddings = model.propagate(graph)
+            optimizer.zero_grad()
+            embeddings = model.propagate(graph)
 
-        positive_scores = (
-            model.score_pairs_from_embeddings(
-                users, positives, embeddings
-            )
-        )
-
-        negative_scores = (
-            model.score_pairs_from_embeddings(
-                users, negatives, embeddings
-            )
-        )
-
-        loss = bpr_loss(
-            positive_scores,
-            negative_scores,
-        )
-
-        if not torch.isfinite(loss):
-            raise FloatingPointError(
-                f"Non-finite loss at epoch {epoch}"
+            positive_scores = model.score_pairs_from_embeddings(
+                batch_users,
+                batch_pos,
+                embeddings,
             )
 
-        loss.backward()
-        optimizer.step()
+            if batch_neg.ndim == 1:
+                negative_scores = model.score_pairs_from_embeddings(
+                    batch_users,
+                    batch_neg,
+                    embeddings,
+                )
+                loss = bpr_loss(positive_scores, negative_scores)
+            else:
+                repeated_users = batch_users[:, None].expand_as(batch_neg)
+                negative_scores = model.score_pairs_from_embeddings(
+                    repeated_users.reshape(-1),
+                    batch_neg.reshape(-1),
+                    embeddings,
+                ).reshape(batch_neg.shape)
+                loss = torch.nn.functional.softplus(
+                    negative_scores - positive_scores[:, None]
+                ).mean()
+
+            if not torch.isfinite(loss):
+                raise FloatingPointError(
+                    f"Non-finite loss at epoch {epoch}"
+                )
+
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
+            optimizer.step()
+            epoch_losses.append(float(loss.item()))
 
         summary, _ = evaluate_hgnn(
             model,
@@ -151,7 +171,7 @@ def train_hgnn(
 
         logs.append({
             "epoch": epoch,
-            "loss": float(loss.item()),
+            "loss": float(np.mean(epoch_losses)),
             "val_precision": summary["Precision@10"],
             "val_recall": summary["Recall@10"],
             "val_ndcg": ndcg,
