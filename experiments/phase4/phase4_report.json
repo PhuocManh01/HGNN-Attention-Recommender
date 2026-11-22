@@ -16,21 +16,27 @@
       "users_evaluated": 5776,
       "Precision@10": 0.0452735457063711,
       "Recall@10": 0.0482188998450625,
-      "NDCG@10": 0.0578258774252653
+      "NDCG@10": 0.0578258774252653,
+      "best_epoch": NaN,
+      "best_validation_ndcg": NaN
     },
     {
       "model": "MF-BPR",
       "users_evaluated": 5776,
       "Precision@10": 0.0469702216066482,
       "Recall@10": 0.0534199052661622,
-      "NDCG@10": 0.0601248229990343
+      "NDCG@10": 0.0601248229990343,
+      "best_epoch": 2.0,
+      "best_validation_ndcg": 0.0601248229990343
     },
     {
       "model": "LightGCN",
       "users_evaluated": 5776,
       "Precision@10": 0.0450138504155124,
       "Recall@10": 0.0473664893590719,
-      "NDCG@10": 0.0573380074634898
+      "NDCG@10": 0.0573380074634898,
+      "best_epoch": 24.0,
+      "best_validation_ndcg": 0.0573380074634898
     }
   ],
   "best_validation_model": "MF-BPR",
