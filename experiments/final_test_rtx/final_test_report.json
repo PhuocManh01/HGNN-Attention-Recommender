@@ -1,0 +1,62 @@
+{
+  "dataset": "ml-1m",
+  "split_method": "per_user_temporal",
+  "seed": 42,
+  "device": "cuda:0",
+  "gpu_name": "NVIDIA GeForce RTX 2050",
+  "torch_version": "2.11.0+cu128",
+  "cuda_version": "12.8",
+  "train_positive_edges": 523551,
+  "eligible_test_users": 5767,
+  "evaluation": "full-ranking@10",
+  "history_for_test": "Train+Validation",
+  "test_labels_used_only_for_metrics": true,
+  "frozen_validation_epochs": {
+    "MF-BPR": 2,
+    "LightGCN": 24,
+    "Hetero-GCN-No-Attention": 33,
+    "HGT-Attention": 45
+  },
+  "results": [
+    {
+      "model": "Popularity",
+      "users_evaluated": 5767,
+      "Precision@10": 0.045708340558349235,
+      "Recall@10": 0.051387372769301255,
+      "NDCG@10": 0.05950948372403471,
+      "epochs": 0
+    },
+    {
+      "model": "MF-BPR",
+      "users_evaluated": 5767,
+      "Precision@10": 0.045864400901681986,
+      "Recall@10": 0.05067292411260175,
+      "NDCG@10": 0.059242819060558796,
+      "epochs": 2
+    },
+    {
+      "model": "LightGCN",
+      "users_evaluated": 5767,
+      "Precision@10": 0.04534419975723947,
+      "Recall@10": 0.051284956455659,
+      "NDCG@10": 0.059088057983096014,
+      "epochs": 24
+    },
+    {
+      "model": "Hetero-GCN-No-Attention",
+      "users_evaluated": 5767,
+      "Precision@10": 0.03950060690133519,
+      "Recall@10": 0.042797007386774305,
+      "NDCG@10": 0.04822200705251427,
+      "epochs": 33
+    },
+    {
+      "model": "HGT-Attention",
+      "users_evaluated": 5767,
+      "Precision@10": 0.03962198716837177,
+      "Recall@10": 0.04490041066263428,
+      "NDCG@10": 0.04972925909609588,
+      "epochs": 45
+    }
+  ]
+}
