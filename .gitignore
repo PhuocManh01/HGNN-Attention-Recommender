@@ -10,7 +10,6 @@ __pycache__/
 .env.local
 
 # Datasets
-data/raw/*
 data/processed/*
 data/splits/*
 !data/**/.gitkeep
