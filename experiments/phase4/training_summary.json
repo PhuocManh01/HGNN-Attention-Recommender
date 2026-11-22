@@ -1,0 +1,11 @@
+{
+  "dataset": "ml-1m",
+  "LightGCN": {
+    "best_epoch": 24,
+    "best_validation_ndcg": 0.05733800746348985,
+    "epochs_ran": 36,
+    "stopped_early": true,
+    "configured_epochs": 100,
+    "configured_patience": 12
+  }
+}

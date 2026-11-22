@@ -1,5 +1,6 @@
 
 import copy
+import time
 
 import numpy as np
 import torch
@@ -105,10 +106,18 @@ def train_hgnn(
     logs = []
 
     for epoch in range(1, epochs + 1):
+        epoch_started = time.perf_counter()
         model.train()
 
         permutation = torch.randperm(len(users))
         epoch_losses = []
+
+        # Propagation is graph-wide. Recomputing it for every mini-batch is
+        # wasteful, so accumulate the mini-batch losses and update once per
+        # epoch using one embedding computation and one optimizer step.
+        optimizer.zero_grad()
+        embeddings = model.propagate(graph)
+        batch_losses = []
 
         for batch in permutation.split(batch_size):
             batch_users = users[batch]
@@ -120,9 +129,6 @@ def train_hgnn(
                 rng,
                 num_negatives=num_negatives,
             ).to(device)
-
-            optimizer.zero_grad()
-            embeddings = model.propagate(graph)
 
             positive_scores = model.score_pairs_from_embeddings(
                 batch_users,
@@ -149,14 +155,15 @@ def train_hgnn(
                 ).mean()
 
             if not torch.isfinite(loss):
-                raise FloatingPointError(
-                    f"Non-finite loss at epoch {epoch}"
-                )
+                raise FloatingPointError(f"Non-finite loss at epoch {epoch}")
 
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
-            optimizer.step()
-            epoch_losses.append(float(loss.item()))
+            batch_losses.append(loss)
+
+        loss = torch.stack(batch_losses).mean()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
+        optimizer.step()
+        epoch_losses = [float(value.detach().item()) for value in batch_losses]
 
         summary, _ = evaluate_hgnn(
             model,
@@ -175,11 +182,14 @@ def train_hgnn(
             "val_precision": summary["Precision@10"],
             "val_recall": summary["Recall@10"],
             "val_ndcg": ndcg,
+            "epoch_seconds": time.perf_counter() - epoch_started,
+            "optimizer_steps": 1,
+            "positive_pairs": int(len(users)),
         })
 
         print(
             f"Epoch {epoch:03d} | "
-            f"Loss={loss.item():.5f} | "
+            f"Loss={logs[-1]['loss']:.5f} | "
             f"NDCG@10={ndcg:.5f}"
         )
 

@@ -151,7 +151,9 @@ def main():
 
     results.append({
         "model": "MF-BPR",
-        **mf_summary
+        **mf_summary,
+        "best_epoch": mf_result["best_epoch"],
+        "best_validation_ndcg": mf_result["best_ndcg"],
     })
 
     torch.save(
@@ -213,11 +215,11 @@ def main():
         val=val,
         eligible_val_users=eligible_val_users,
         num_movies=num_movies,
-        epochs=config["training"]["epochs"],
+        epochs=config["lightgcn"].get("epochs", config["training"]["epochs"]),
         batch_size=config["training"]["batch_size"],
-        learning_rate=config["training"]["learning_rate"],
-        weight_decay=config["training"]["weight_decay"],
-        patience=config["training"]["patience"],
+        learning_rate=config["lightgcn"].get("learning_rate", config["training"]["learning_rate"]),
+        weight_decay=config["lightgcn"].get("weight_decay", config["training"]["weight_decay"]),
+        patience=config["lightgcn"].get("patience", config["training"]["patience"]),
         seed=seed
     )
 
@@ -231,7 +233,9 @@ def main():
 
     results.append({
         "model": "LightGCN",
-        **lg_summary
+        **lg_summary,
+        "best_epoch": lg_result["best_epoch"],
+        "best_validation_ndcg": lg_result["best_ndcg"],
     })
 
     torch.save(
@@ -265,6 +269,27 @@ def main():
         encoding="utf-8"
     ) as f:
         json.dump(all_logs, f, indent=2)
+
+    with open(
+        result_dir / "training_summary.json",
+        "w",
+        encoding="utf-8",
+    ) as f:
+        json.dump({
+            "dataset": split_metadata.get("dataset"),
+            "LightGCN": {
+                "best_epoch": lg_result["best_epoch"],
+                "best_validation_ndcg": lg_result["best_ndcg"],
+                "epochs_ran": lg_result["epochs_ran"],
+                "stopped_early": lg_result["stopped_early"],
+                "configured_epochs": config["lightgcn"].get(
+                    "epochs", config["training"]["epochs"]
+                ),
+                "configured_patience": config["lightgcn"].get(
+                    "patience", config["training"]["patience"]
+                ),
+            },
+        }, f, indent=2)
 
     print("\nVALIDATION RESULTS")
     print(result_table.to_string(index=False))

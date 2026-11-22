@@ -1,6 +1,7 @@
 
 import copy
 import random
+import time
 
 import numpy as np
 import torch
@@ -131,6 +132,7 @@ def train_bpr_model(
     best_state = None
     best_epoch = 0
     wait = 0
+    stopped_early = False
     logs = []
 
     is_lightgcn = (
@@ -138,6 +140,7 @@ def train_bpr_model(
     )
 
     for epoch in range(1, epochs + 1):
+        epoch_started = time.perf_counter()
         model.train()
 
         permutation = torch.randperm(len(users))
@@ -216,7 +219,10 @@ def train_bpr_model(
             "loss": float(np.mean(epoch_losses)),
             "val_precision": summary["Precision@10"],
             "val_recall": summary["Recall@10"],
-            "val_ndcg": current_ndcg
+            "val_ndcg": current_ndcg,
+            "epoch_seconds": time.perf_counter() - epoch_started,
+            "optimizer_steps": len(batches),
+            "positive_pairs": int(len(users)),
         })
 
         print(
@@ -237,6 +243,7 @@ def train_bpr_model(
 
         if wait >= patience:
             print("Early stopping triggered")
+            stopped_early = True
             break
 
     model.load_state_dict(best_state)
@@ -245,5 +252,7 @@ def train_bpr_model(
         "model": model,
         "best_epoch": best_epoch,
         "best_ndcg": best_ndcg,
-        "history": logs
+        "history": logs,
+        "epochs_ran": len(logs),
+        "stopped_early": stopped_early,
     }

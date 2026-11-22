@@ -5,6 +5,7 @@ import torch
 from torch_geometric.data import HeteroData
 
 from src.models.hgnn_attention import HGNNWithAttention
+from src.models.rgcn import RGCNRecommender
 from src.training.baseline_trainer import bpr_loss
 
 
@@ -130,6 +131,26 @@ class TestHGNNWithAttention(unittest.TestCase):
                 hidden_dim=15,
                 num_heads=4,
             )
+
+    def test_rgcn_without_attention(self):
+        model = RGCNRecommender(
+            metadata=self.graph.metadata(),
+            num_users=3,
+            num_movies=4,
+            num_genres=2,
+            hidden_dim=16,
+            num_layers=2,
+            dropout=0.0,
+        )
+        embeddings = model.propagate(self.graph)
+        self.assertEqual(embeddings["user"].shape, (3, 16))
+        scores = model(
+            self.graph,
+            torch.tensor([0, 1]),
+            torch.tensor([1, 2]),
+        )
+        self.assertEqual(scores.shape, (2,))
+        self.assertTrue(torch.isfinite(scores).all())
             
     
 
