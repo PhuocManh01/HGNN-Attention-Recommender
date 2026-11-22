@@ -4,8 +4,8 @@
   "split_method": "per_user_temporal",
   "split_seed": 42,
   "positive_threshold": 4.0,
-  "eligible_validation_users": 564,
-  "users_evaluated": 564,
+  "eligible_validation_users": 5776,
+  "users_evaluated": 5776,
   "environment": "local_or_other",
   "torch_version": "2.15.0+cpu",
   "cuda_available": false,
@@ -13,24 +13,24 @@
   "models": [
     {
       "model": "Popularity",
-      "users_evaluated": 564,
-      "Precision@10": 0.0352836879432624,
-      "Recall@10": 0.0540685258544962,
-      "NDCG@10": 0.0562374263636852
+      "users_evaluated": 5776,
+      "Precision@10": 0.0452735457063711,
+      "Recall@10": 0.0482188998450625,
+      "NDCG@10": 0.0578258774252653
     },
     {
       "model": "MF-BPR",
-      "users_evaluated": 564,
-      "Precision@10": 0.0374113475177305,
-      "Recall@10": 0.0637636115325815,
-      "NDCG@10": 0.0584444159086928
+      "users_evaluated": 5776,
+      "Precision@10": 0.0469702216066482,
+      "Recall@10": 0.0534199052661622,
+      "NDCG@10": 0.0601248229990343
     },
     {
       "model": "LightGCN",
-      "users_evaluated": 564,
-      "Precision@10": 0.0356382978723404,
-      "Recall@10": 0.0541335430920496,
-      "NDCG@10": 0.056206112313369
+      "users_evaluated": 5776,
+      "Precision@10": 0.0450138504155124,
+      "Recall@10": 0.0473664893590719,
+      "NDCG@10": 0.0573380074634898
     }
   ],
   "best_validation_model": "MF-BPR",

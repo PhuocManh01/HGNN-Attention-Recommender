@@ -28,12 +28,12 @@
       "movie"
     ]
   ],
-  "num_users": 610,
-  "num_movies": 9742,
-  "num_genres": 19,
-  "train_positive_edges": 39119,
-  "train_val_positive_edges": 43749,
-  "movie_genre_edges": 22050,
+  "num_users": 6040,
+  "num_movies": 3883,
+  "num_genres": 18,
+  "train_positive_edges": 470016,
+  "train_val_positive_edges": 523551,
+  "movie_genre_edges": 6408,
   "train_snapshot": "train_positive_only",
   "test_interactions_in_graph": false,
   "node_features": "none",
@@ -41,6 +41,6 @@
   "split_method": "per_user_temporal",
   "split_seed": 42,
   "positive_threshold": 4.0,
-  "num_eligible_val_users": 564,
-  "num_eligible_test_users": 565
+  "num_eligible_val_users": 5776,
+  "num_eligible_test_users": 5767
 }
