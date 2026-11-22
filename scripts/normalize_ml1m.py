@@ -46,6 +46,17 @@ def normalize_ratings(source: Path, target: Path) -> int:
     return len(rows)
 
 
+def normalize_users(source: Path, target: Path) -> int:
+    rows = []
+    for line_number, fields in read_dat(source):
+        if len(fields) != 5:
+            raise ValueError(f"{source}:{line_number}: expected 5 fields, got {len(fields)}")
+        user_id, gender, age, occupation, zip_code = fields
+        rows.append((int(user_id), gender, int(age), int(occupation), zip_code))
+    write_csv(target, ["userId", "gender", "age", "occupation", "zipCode"], rows)
+    return len(rows)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--raw-dir", type=Path, default=Path("data/raw/ml-1m"))
@@ -53,7 +64,11 @@ def main() -> None:
 
     movie_count = normalize_movies(args.raw_dir / "movies.dat", args.raw_dir / "movies.csv")
     rating_count = normalize_ratings(args.raw_dir / "ratings.dat", args.raw_dir / "ratings.csv")
-    print(f"wrote {movie_count:,} movies and {rating_count:,} ratings to {args.raw_dir}")
+    user_count = normalize_users(args.raw_dir / "users.dat", args.raw_dir / "users.csv")
+    print(
+        f"wrote {movie_count:,} movies, {rating_count:,} ratings, "
+        f"and {user_count:,} users to {args.raw_dir}"
+    )
 
 
 if __name__ == "__main__":

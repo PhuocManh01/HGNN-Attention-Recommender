@@ -25,6 +25,13 @@
       "movieId": 0,
       "title": 0,
       "genres": 0
+    },
+    "users": {
+      "userId": 0,
+      "gender": 0,
+      "age": 0,
+      "occupation": 0,
+      "zipCode": 0
     }
   },
   "user_activity": {
