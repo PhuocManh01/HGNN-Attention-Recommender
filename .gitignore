@@ -10,8 +10,6 @@ __pycache__/
 .env.local
 
 # Datasets
-data/processed/*
-data/splits/*
 !data/**/.gitkeep
 
 # Models
