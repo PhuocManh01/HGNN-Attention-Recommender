@@ -1,0 +1,19 @@
+{
+  "model": "HGNN-HGT-Attention",
+  "dataset": "ml-1m",
+  "split_method": "per_user_temporal",
+  "seed": 42,
+  "device": "cuda:0",
+  "gpu_name": "NVIDIA GeForce RTX 2050",
+  "torch_version": "2.11.0+cu128",
+  "cuda_version": "12.8",
+  "best_epoch": 45,
+  "best_validation_ndcg": 0.05798615606771611,
+  "metrics": {
+    "users_evaluated": 5776,
+    "Precision@10": 0.04518698060941828,
+    "Recall@10": 0.04951413043660657,
+    "NDCG@10": 0.05798615606771611
+  },
+  "test_evaluated": false
+}
