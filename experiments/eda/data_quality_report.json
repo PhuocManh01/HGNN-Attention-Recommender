@@ -1,0 +1,70 @@
+{
+  "num_users": 6040,
+  "num_movies": 3883,
+  "num_rated_movies": 3706,
+  "num_ratings": 1000209,
+  "num_positive_ratings": 575281,
+  "positive_ratio": 0.5751607913945985,
+  "density": 0.04264679797998748,
+  "sparsity": 0.9573532020200125,
+  "rating_min": 1.0,
+  "rating_max": 5.0,
+  "earliest_timestamp": "2000-04-25T23:05:32+00:00",
+  "latest_timestamp": "2003-02-28T17:49:50+00:00",
+  "duplicate_user_movie_pairs": 0,
+  "unknown_movie_references": 0,
+  "missing_values": {
+    "ratings": {
+      "userId": 0,
+      "movieId": 0,
+      "rating": 0,
+      "timestamp": 0,
+      "datetime": 0
+    },
+    "movies": {
+      "movieId": 0,
+      "title": 0,
+      "genres": 0
+    }
+  },
+  "user_activity": {
+    "count": 6040.0,
+    "mean": 165.5975165562914,
+    "std": 192.74702906977777,
+    "min": 20.0,
+    "25%": 44.0,
+    "50%": 96.0,
+    "75%": 208.0,
+    "max": 2314.0
+  },
+  "movie_activity": {
+    "count": 3706.0,
+    "mean": 269.88909875876953,
+    "std": 384.0478375720256,
+    "min": 1.0,
+    "25%": 33.0,
+    "50%": 123.5,
+    "75%": 350.0,
+    "max": 3428.0
+  },
+  "genre_counts": {
+    "Drama": 1603,
+    "Comedy": 1200,
+    "Action": 503,
+    "Thriller": 492,
+    "Romance": 471,
+    "Horror": 343,
+    "Adventure": 283,
+    "Sci-Fi": 276,
+    "Children": 251,
+    "Crime": 211,
+    "War": 143,
+    "Documentary": 127,
+    "Musical": 114,
+    "Mystery": 106,
+    "Animation": 105,
+    "Fantasy": 68,
+    "Western": 68,
+    "Film-Noir": 44
+  }
+}

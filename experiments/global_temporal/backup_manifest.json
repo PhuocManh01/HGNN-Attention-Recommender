@@ -1,0 +1,137 @@
+﻿{
+    "protocol":  "global_temporal",
+    "backup_created_at":  "2026-11-15T23:28:41.3955284+07:00",
+    "file_count":  26,
+    "files":  [
+                  {
+                      "path":  "processed/genre_mapping.csv",
+                      "size_bytes":  232,
+                      "sha256":  "F91116DB77E85E25C6AE0F44C5FA9C89F0A43C688DFB21901706E1C260619E18"
+                  },
+                  {
+                      "path":  "processed/interactions.csv",
+                      "size_bytes":  4136848,
+                      "sha256":  "3EB5478E5C098F419295F228E1886D9F2D070D1BC6219B9DC77CB9ADF6BF24FF"
+                  },
+                  {
+                      "path":  "processed/movies.csv",
+                      "size_bytes":  542041,
+                      "sha256":  "51B2DCCCD66C527FBA32EB7226FD21C18808E2905307A8C5C41B4AE7F434B652"
+                  },
+                  {
+                      "path":  "processed/movie_genres.csv",
+                      "size_bytes":  344989,
+                      "sha256":  "56ACF8D5E188310E3A6575B578E44EA1BBEC9C6143A1954365762308267916F2"
+                  },
+                  {
+                      "path":  "processed/movie_mapping.csv",
+                      "size_bytes":  111210,
+                      "sha256":  "89D87A7103C8F012305B18EE2B26A126915EB5DA74EC43D02E79416D58A96B8B"
+                  },
+                  {
+                      "path":  "processed/user_mapping.csv",
+                      "size_bytes":  5289,
+                      "sha256":  "A258FF9E87962F3F1512556EFDBFB7F0749A0FB5A7242C6DCE5A772947D108A1"
+                  },
+                  {
+                      "path":  "splits/evaluation_users.csv",
+                      "size_bytes":  10251,
+                      "sha256":  "0A37661A9AF7DC766AF0DD95B80B0DC83E3031B8D892AB9DD2A40036ADC2FD65"
+                  },
+                  {
+                      "path":  "splits/split_metadata.json",
+                      "size_bytes":  965,
+                      "sha256":  "A213C2F730B483A077A711BCF005499F060C7CD0DFB00D1002AA93708CF9133A"
+                  },
+                  {
+                      "path":  "splits/test.csv",
+                      "size_bytes":  425819,
+                      "sha256":  "9CBE786D522922CE98CF57E71514B15A659C7F739B24508228EE68E67D1A6BCF"
+                  },
+                  {
+                      "path":  "splits/train.csv",
+                      "size_bytes":  3285124,
+                      "sha256":  "2B7F299E214F91079CD0D0CF0468AAEA4315D799DD9633D58A7B8B436E944924"
+                  },
+                  {
+                      "path":  "splits/train_val.csv",
+                      "size_bytes":  3711108,
+                      "sha256":  "D9C74B556110012B967C6E46AEF9F5FB44F370049D8D89139AD8C2885E6A5E99"
+                  },
+                  {
+                      "path":  "splits/val.csv",
+                      "size_bytes":  426063,
+                      "sha256":  "9E8F0A0B8D81860DE913D649DCC358B37E555DAC6BABE9BB904474619F392632"
+                  },
+                  {
+                      "path":  "graphs/graph_metadata.json",
+                      "size_bytes":  756,
+                      "sha256":  "2396283D295B6D8B2DB545C309B4AFB5F161C1D86313392DD2E656677106D772"
+                  },
+                  {
+                      "path":  "graphs/train_graph.pt",
+                      "size_bytes":  1964805,
+                      "sha256":  "9E1B30910DBC7361D5E340FCB51BC10E447E2D9EB18AF9395494289B28B3C9E1"
+                  },
+                  {
+                      "path":  "graphs/train_val_graph.pt",
+                      "size_bytes":  2131245,
+                      "sha256":  "E88D44A5329EFFC1C523E141EAFA597646729B29840C1FC3F6BEF064DDC0591B"
+                  },
+                  {
+                      "path":  "checkpoints/baselines/lightgcn.pt",
+                      "size_bytes":  4222762,
+                      "sha256":  "ECF021AA263310A3E241500F005014408FB2DB97E717B7783171364278D13E64"
+                  },
+                  {
+                      "path":  "checkpoints/baselines/mf_bpr.pt",
+                      "size_bytes":  2652125,
+                      "sha256":  "A042DB7C13A203B330907AB49615816A75671BE202CF66610B430C5D14058206"
+                  },
+                  {
+                      "path":  "checkpoints/baselines/popularity.pt",
+                      "size_bytes":  40510,
+                      "sha256":  "C67FCD138D3A4804AED78183F979A9E0B7646AA607F071086A2DC8E26B03A86E"
+                  },
+                  {
+                      "path":  "phase2/phase2_report.json",
+                      "size_bytes":  386,
+                      "sha256":  "92A17A76157AC5E30A2524A7C960980FFD48CD3A1E0A003CC7F84B485956BABC"
+                  },
+                  {
+                      "path":  "phase3/phase3_report.json",
+                      "size_bytes":  402,
+                      "sha256":  "2479BDC054368C97423F4B23CD27AE46F144908B4AF1FAE91179898D58AFDEC9"
+                  },
+                  {
+                      "path":  "phase4/lightgcn_val_users.csv",
+                      "size_bytes":  571,
+                      "sha256":  "9DD6D31A18035453CC8ADB0313C02AC4D7D72FFF25ECC0E4FA12B5F83B1DE413"
+                  },
+                  {
+                      "path":  "phase4/mf_bpr_val_users.csv",
+                      "size_bytes":  538,
+                      "sha256":  "920E3744CFD03FE28F342D848B31EDAD945F0B683AD2E2D734A60287BF6E31C2"
+                  },
+                  {
+                      "path":  "phase4/phase4_report.json",
+                      "size_bytes":  843,
+                      "sha256":  "C7D6984FB9B9147A96D2F41B00AD7915A4945B430C7A9F020F810C4C23EAC368"
+                  },
+                  {
+                      "path":  "phase4/popularity_val_users.csv",
+                      "size_bytes":  507,
+                      "sha256":  "2A46F972A8100D8C0B0741FB6B3983E7C060C13ADAC2A2A73DF2C53FDB4C486E"
+                  },
+                  {
+                      "path":  "phase4/training_history.json",
+                      "size_bytes":  4669,
+                      "sha256":  "DEA58A6DD1B2FFAA2912FC7E61935FE7655950D5A4E9923F73B15BCF3451D13E"
+                  },
+                  {
+                      "path":  "phase4/validation_results.csv",
+                      "size_bytes":  275,
+                      "sha256":  "B2474928DFC638FB21B96E3811118B79B03019A6E4E8FB489AF30628105308A8"
+                  }
+              ]
+}

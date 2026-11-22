@@ -1,0 +1,42 @@
+{
+  "phase": 4,
+  "dataset": "MovieLens 1M",
+  "split_method": "per_user_temporal",
+  "split_seed": 42,
+  "positive_threshold": 4.0,
+  "eligible_validation_users": 564,
+  "users_evaluated": 564,
+  "environment": "local_or_other",
+  "torch_version": "2.15.0+cpu",
+  "cuda_available": false,
+  "training_device": "cpu",
+  "models": [
+    {
+      "model": "Popularity",
+      "users_evaluated": 564,
+      "Precision@10": 0.0352836879432624,
+      "Recall@10": 0.0540685258544962,
+      "NDCG@10": 0.0562374263636852
+    },
+    {
+      "model": "MF-BPR",
+      "users_evaluated": 564,
+      "Precision@10": 0.0374113475177305,
+      "Recall@10": 0.0637636115325815,
+      "NDCG@10": 0.0584444159086928
+    },
+    {
+      "model": "LightGCN",
+      "users_evaluated": 564,
+      "Precision@10": 0.0356382978723404,
+      "Recall@10": 0.0541335430920496,
+      "NDCG@10": 0.056206112313369
+    }
+  ],
+  "best_validation_model": "MF-BPR",
+  "selection_metric": "NDCG@10",
+  "evaluation": "full-ranking",
+  "negative_sampling": "uniform_unobserved_train_items",
+  "test_evaluated": false,
+  "unit_tests": "passed"
+}

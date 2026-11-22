@@ -1,0 +1,41 @@
+{
+  "phase": 3,
+  "graph_type": "heterogeneous",
+  "node_types": [
+    "user",
+    "movie",
+    "genre"
+  ],
+  "edge_types": [
+    [
+      "user",
+      "rates",
+      "movie"
+    ],
+    [
+      "movie",
+      "rev_rates",
+      "user"
+    ],
+    [
+      "movie",
+      "has_genre",
+      "genre"
+    ],
+    [
+      "genre",
+      "rev_has_genre",
+      "movie"
+    ]
+  ],
+  "num_users": 610,
+  "num_movies": 9742,
+  "num_genres": 19,
+  "train_positive_edges": 39255,
+  "train_val_positive_edges": 44452,
+  "movie_genre_edges": 22050,
+  "train_snapshot": "train_positive_only",
+  "test_interactions_in_graph": false,
+  "node_features": "none",
+  "genre_metadata_policy": "static metadata from MovieLens movies.csv"
+}

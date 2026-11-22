@@ -1,0 +1,19 @@
+{
+  "phase": 2,
+  "dataset": "MovieLens 1M",
+  "execution": "local",
+  "split_method": "per_user_temporal",
+  "timestamp_boundary_scope": "per_user",
+  "num_users": 610,
+  "num_interactions": 100836,
+  "train_count": 80504,
+  "val_count": 10149,
+  "test_count": 10183,
+  "train_positive": 39119,
+  "val_positive": 4630,
+  "test_positive": 4831,
+  "eligible_val_users": 564,
+  "eligible_test_users": 565,
+  "temporal_integrity": "passed",
+  "unit_tests": "passed"
+}

@@ -1,0 +1,33 @@
+{
+  "phase": 4,
+  "environment": "local",
+  "dataset": "MovieLens Latest Small",
+  "models": [
+    {
+      "model": "Popularity",
+      "users_evaluated": 21,
+      "Precision@10": 0.0238095238095238,
+      "Recall@10": 0.0396362896362896,
+      "NDCG@10": 0.0338602367401631
+    },
+    {
+      "model": "MF-BPR",
+      "users_evaluated": 21,
+      "Precision@10": 0.0285714285714285,
+      "Recall@10": 0.0399248899248899,
+      "NDCG@10": 0.042932367749297
+    },
+    {
+      "model": "LightGCN",
+      "users_evaluated": 21,
+      "Precision@10": 0.0333333333333333,
+      "Recall@10": 0.0435878935878935,
+      "NDCG@10": 0.0386339330477142
+    }
+  ],
+  "best_validation_model": "MF-BPR",
+  "selection_metric": "NDCG@10",
+  "evaluation": "full-ranking",
+  "test_evaluated": false,
+  "unit_tests": "passed"
+}

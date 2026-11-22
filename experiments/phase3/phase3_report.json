@@ -1,0 +1,22 @@
+{
+  "phase": 3,
+  "execution": "local",
+  "graph_type": "heterogeneous",
+  "split_method": "per_user_temporal",
+  "num_eligible_val_users": 564,
+  "num_eligible_test_users": 565,
+  "per_user_chronology": "passed",
+  "num_node_types": 3,
+  "num_edge_types": 4,
+  "num_nodes": {
+    "user": 610,
+    "movie": 9742,
+    "genre": 19
+  },
+  "train_positive_edges": 39119,
+  "train_val_positive_edges": 43749,
+  "graph_validation": "passed",
+  "snapshot_integrity": "passed",
+  "test_isolation": "passed",
+  "unit_tests": "passed"
+}

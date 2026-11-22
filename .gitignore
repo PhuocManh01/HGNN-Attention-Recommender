@@ -17,7 +17,6 @@ checkpoints/*
 !checkpoints/.gitkeep
 
 # Experiments
-experiments/*
 !experiments/.gitkeep
 
 # Jupyter

@@ -1,0 +1,17 @@
+{
+  "phase": 5,
+  "model": "HGNN-HGT-Attention",
+  "dataset": "MovieLens Latest Small",
+  "split_method": "per_user_temporal",
+  "seed": 42,
+  "device": "cpu",
+  "best_epoch": 5,
+  "best_validation_ndcg": 0.03730963111767354,
+  "metrics": {
+    "users_evaluated": 564,
+    "Precision@10": 0.02695035460992908,
+    "Recall@10": 0.03510373809994342,
+    "NDCG@10": 0.03730963111767354
+  },
+  "test_evaluated": false
+}

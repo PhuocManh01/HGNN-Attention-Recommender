@@ -1,0 +1,16 @@
+{
+  "phase": 2,
+  "dataset": "MovieLens Latest Small",
+  "execution": "local",
+  "num_interactions": 100836,
+  "train_count": 80669,
+  "val_count": 10083,
+  "test_count": 10084,
+  "train_positive": 39255,
+  "val_positive": 5197,
+  "test_positive": 4128,
+  "eligible_val_users": 21,
+  "eligible_test_users": 25,
+  "temporal_integrity": "passed",
+  "unit_tests": "passed"
+}
