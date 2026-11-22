@@ -223,7 +223,7 @@ def main():
     report = {
         "phase": 5,
         "model": "HGNN-HGT-Attention",
-        "dataset": "MovieLens Latest Small",
+        "dataset": split_meta.get("dataset", "unknown"),
         "split_method": expected_split,
         "seed": cfg["project"]["seed"],
         "device": device,

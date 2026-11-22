@@ -602,7 +602,7 @@ def run_pipeline(
         )
 
     metadata = {
-        "dataset": "MovieLens Latest Small",
+        "dataset": Path(raw_dir).name,
         "split_method": split_method,
         "timestamp_tie_policy": "keep_together",
         "train_ratio_target": 0.8,

@@ -1,5 +1,5 @@
 {
-  "dataset": "MovieLens Latest Small",
+  "dataset": "ml-1m",
   "split_method": "per_user_temporal",
   "timestamp_tie_policy": "keep_together",
   "train_ratio_target": 0.8,
